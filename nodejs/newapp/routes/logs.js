@@ -36,7 +36,7 @@ router.get('/:d/:m/:y', function(req, res) {
   logsFilter = [];
 
   for (var i = 0; i < logs.total; i++) {
-  	if ( logs.logs[i].date == date ) {
+  	if ( logs.logs[i].date === date ) {
 		logsFilter.push(logs.logs[i]);
   	}
   };
@@ -53,7 +53,7 @@ router.get('/:type', function(req, res) {
   logsFilter = [];
 
   for (var i = 0; i < logs.total; i++) {
-  	if ( logs.logs[i].type == type ) {
+  	if ( logs.logs[i].type === type ) {
 		logsFilter.push(logs.logs[i]);
   	}
   };
@@ -88,21 +88,18 @@ router.post('/', function(req, res) {
 router.delete('/:id', function(req, res) {
   var 
   id = req.params.id,
-  logTotal = --logs.total;
+  logTotal = logs.total - 1;
 
   for (var i = 0; i < logs.total; i++) {
-  	if ( logs.logs[i].id == id ) {
-		//logs.logs.shift(logs.logs[i]);
+  	if ( logs.logs[i].id === id ) {
     logs.logs.splice(i, 1);
-    console.log(i);
 		break;
   	}
   };
 
-  logs.total = logTotal;
-
-  
-  console.log(logs.logs);
+  if ( logs.total ) {
+    logs.total = logTotal;
+  }
 
   res.send(200);
 
