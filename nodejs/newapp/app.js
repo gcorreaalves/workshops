@@ -4,10 +4,6 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-
-// Database
-//mongoose.connect('mongodb://localhost/ecomm_database');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
