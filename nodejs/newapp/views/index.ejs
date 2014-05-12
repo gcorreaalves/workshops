@@ -7,5 +7,10 @@
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
+    <form action="/logs" method="DELETE">
+    <input type="hidden" name="_method" value="DELETE" />
+    	<input type="text" name="id">
+    	<input type="submit" value="Enviar">
+    </form>
   </body>
 </html>

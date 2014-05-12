@@ -87,19 +87,24 @@ router.post('/', function(req, res) {
 /* POST/DELETE log. */
 router.delete('/:id', function(req, res) {
   var 
-  id = req.body.msg,
+  id = req.params.id,
   logTotal = --logs.total;
-
-  console.log(id);
 
   for (var i = 0; i < logs.total; i++) {
   	if ( logs.logs[i].id == id ) {
-		logs.logs.shift(logs.logs[i]);
+		//logs.logs.shift(logs.logs[i]);
+    logs.logs.splice(i, 1);
+    console.log(i);
 		break;
   	}
   };
 
   logs.total = logTotal;
+
+  
+  console.log(logs.logs);
+
+  res.send(200);
 
 });
 
