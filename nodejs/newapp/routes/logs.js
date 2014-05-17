@@ -1,33 +1,39 @@
 var express = require('express');
 var router = express.Router();
-var Logs = require('../controllers/LogsController');
+var LogBD = require('../models/LogsModel');
 
 /* GET logs listing. */
 router.get('/', function(req, res) {
-  res.setHeader('Content-Type', 'application/json');
-  res.end(JSON.stringify(Logs.list(), null, 3));
+
+    LogBD.find(function(err, result) {
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify(result, null, 3));
+    });
+
 });
 
 /* GET/DATE log. */
 router.get('/:d/:m/:y', function(req, res) {
 
   var 
-  date = req.params.d + '/' + req.params.m + '/' + req.params.y,
-  logsDate = Logs.findByDate(date);
+  date = req.params.d + '/' + req.params.m + '/' + req.params.y;
 
-  res.setHeader('Content-Type', 'application/json');
-  res.end(JSON.stringify(logsDate, null, 3));
+  LogBD.find({'date': date}, function(err, result) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(result, null, 3));
+  });
 
 });
 
 /* GET/TYPE log. */
 router.get('/:type', function(req, res) {
 
-  var type = req.params.type,
-  logsType = Logs.findByType(type);
+  var type = req.params.type;
 
-  res.setHeader('Content-Type', 'application/json');
-  res.end(JSON.stringify(logsType, null, 3));
+  LogBD.find({'type': type}, function(err, result) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(result, null, 3));
+  });
 
 });
 
@@ -38,8 +44,7 @@ router.post('/', function(req, res) {
   type = req.body.type,
   date = req.body.date;
 
-  Logs.save(msg, type, date);
-
+  new LogBD({msg: msg, type: type, date: date}).save();
   res.send(200);
 
 });
@@ -50,9 +55,11 @@ router.delete('/:id', function(req, res) {
   var 
   id = req.params.id;
 
-  Logs.del(id);
+  console.log(id);
 
-  res.send(200);
+  LogBD.remove({'_id': id}, function(err, result) {
+    res.send(200);
+  });
 
 });
 
